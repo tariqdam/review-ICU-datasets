@@ -1,0 +1,52 @@
+Table,Group,Parameter name,,,,,Description
+Database,,Database name,AmsterdamUMCdb,eICU-CRD,HiRID,MIMIC-IV,Unique identifying name for dataset given by publishers
+Database,,Center Count,1,208,1,1,Number of participating health centers
+Database,,Center Location,"Amsterdam, NL",Cross-USA,"Bern, Switzerland ","Boston, MA","Most accurately defineable location: Worldwide > Continental > State > County > City. When multiple centers involved, report the location of database publishers, followed by a maximum of four largest other centers. If more than five centers are involved, extract the same data but report on less precise location (e.g. USA & Paris, France; instead of Boston, Massachussets, USA & New York, NY, USA & Miami, Florida, USA & Paris, France)"
+Database,,Link,https://amsterdammedicaldatascience.nl/#amsterdamumcdb,https://physionet.org/content/eicu-crd/2.0/,https://physionet.org/content/hirid/1.1/,https://physionet.org/content/mimiciv/0.4/,Digital location database access request
+Database,,Time period,2003-2016,2014 - 2015,April 2005 and August 2016,2008-2019,The time period covered by the database reported as two datetime points
+Database,,Time period duration,13 years,2 years,11 years,11 years,The time period duration covered by the database as time difference between two datetime points (for datetime obfuscated databases (e.g. converted to years >2100)
+Database,,ICU Patient count,"20,109",139367,33905,"50,048",Number of unique patients
+Database,,ICU patient proportion,100%,100.00%,100.00%,19.4%,Number of unique patients who have been admitted to the ICU at some point of their admission divided by the number of unique patients
+Database,,ICU admissions proportion,100%,120.74%,100.00%,139.1%,Number of admissions to an ICU divided by total number of admissions captured in data set
+Database,,Adult ICU admissions age proportion,100%,99.74%,100.00%,99.86%,Number of admissions where patient age >18 years divided by total number of ICU admissions
+Database,,ICU admissions age distribution,"Median 60-69 IQR: 50-59, 70-79",65 (53 - 76),65 (55 - 75),"64 (51, 70)",Median and IQR age of patients >18 years
+Database,,ICU record proportion,-,-,-,-,Number of records on the ICU divided by the total number of records
+ICU Patients,Mortality,Mortality extraction point,"ICU, Hospital","ICU, Hospital",ICU,"ICU, Hospital","Reporting on the registration of mortality at the ICU only, Hospital (includes ICU) or Outside (includes ICU)"
+ICU Patients,,Mortality ICU,9.90%,5.45%,6.08%,8.62%,"Proportion of first ICU admissions registered as deceased in the ICU, within 28 days after ICU admission, and 90 days after ICU admission, where possible"
+ICU Patients,,Mortality 28d,13.60%,Not reported,Not reported,11.64%,
+ICU Patients,,Mortality 90d,16.30%,Not reported,Not reported,12.69%,
+ICU Patients,,Length of stay,"1.03 (0.84,3.05)",1.57 (0.82 - 2.97),0.99 (0.80 - 2.16),2.0 (1.1 3.9),Median (IQR) number of days between ICU admission and ICU discharge
+outcomes,Quality of Life,Quality of Life,None,None,Not reported,None,Parameters reported which contribute to quality of life
+ICU Patients,,Comorbidities,Not reported,87.75%,Not reported,83.76%,Proportion of admissions with comorbidity data
+ICU Patients,,Severity of Illness registration,"APACHE II, SOFA","APACHE IV, APACHE IVa",Apache II,"SOFA, APACHE III, OASIS ",Which scores are used to describe severity of illness?
+ICU Patients,,Admission reason elective / urgent / unknown,14412 / 5697 / 0,30477 / 3652 / 163324,Not reported,17315/ 52304 / 0,Proportion of elective and urgent admissions
+ICU Patients,,Admission reason surgical / medical / other /unknown,13905/ 4090/ 1011/ 1103,34129 / 143179 / 20145,20330 / 17267 / 0,19251 / 34503 / 15265 / 0,Proportion of surgical and medical admissions
+ICU Patients,,Vasopressor usage,69.02%,12.02%,39.37%,31.03%,Proportion of ICU admissions receiving vasopressors at any timepoint during the admission
+ICU Patients,,CRRT usage,5.64%,3.98%,5.42%,5.90%,Proportion of ICU admissions receiving CRRT at any timepoint during the admission
+ICU Patients,,ECMO usage,0.01%,0.00%,0%,0.01%,Proportion of ICU admissions receiving ECMO at any timepoint during the admission
+ICU Patients,,Mechanical ventilation usage,82.95%,20.97%,57.22%,33.84%,Proportion of ICU admissions receiving mechinal ventilation at any timepoint during the admission
+records,Ventilation,Frequency of respiratory rate records,18.6 (33.9),10.576 (4.007),33.896 (53.954),1.08 (0.37),
+records,Ventilation,"O2 saturation, peripheral",16.0 (28.5),1.111 (0.880),30.249 (9.918),1.05 (0.34),
+records,Ventilation,Frequency of FiO2 records,8.2 (21.8),0.338 (0.428),14.942 (7.838),0.17 (0.1),
+records,Ventilation,Frequency of ventilation mode: mechanical / spontaneous breathing modes,0.4 (0.5),0.194 (0.149),5.871 (7.997),0.13 (0.09),
+records,Ventilation,PEEP,4.1 (10.9),0.240 (0.316),16.910 (8.963),0.14 (0.1),
+records,Ventilation,end tidal CO2 concentration,6.4 (8.7),3.641 (3.909),16.516 (13.308),0.24 (0.1),
+records,Cardiovascular,Frequency of Heart rate records,17.0 (29.8),11.909 (2.655),31.729 (10.195),1.08 (0.36),
+records,Cardiovascular,Frequency of Systolic Blood pressure records,14.3 (24.9),4.370 (4.213),29.711 (10.241),1.03 (0.34),
+records,Cardiovascular,Cardiac Output,0.1 (0.1),3.861 (11.781),14.608 (7.455),0.29 (0.29),
+records,Medication,Frequency of Medication records,1.8 (4.5),0.828 (1.050),6.591 (5.280),0.86 (0.57),
+records,Medication,Detail of medication classification,Individual medication,Individual medication,Individual medication,Individual medication,Discern grouped versus individual medication
+records,Medication,Method of medication registration,Continuous,Continuous,Continuous,Continuous,Discern directly reported medication versus binned reporting
+records,Medication,Method of infusion registration,On change ,On change,On change,On change ,Discern between recording per minute / on change for continuous medication
+records,Fluid balance,Number records relating to fluid balance; if not easily discernable count all records containing ml?,7.0 (12.6),0.729 (0.776),1.3 (0.9),1.2 (0.5),
+records,Radiology,Number of Radiology reports,No ,None,None,None,Including X-rays/CT-scans/MRI/Ultrasound
+records,Radiology,Availability of radiology images,No ,None,None,"Yes, through MIMIC-CXR Database v2.0.0 - PhysioNet",Are images included in the dataset?
+lab,Lab records,Lactate,4.2 (2.7),1.176 (1.728),5.215 (3.377),1.5 (1.5),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,pO2,3.8 (2.3),1.488 (2.16),5.065 (3.363),2.4 (2.3),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,Sodium,4.2 (2.7),1.608 (1.512),5.064 (3.363),1.2 (1.0),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,Hemoglobin,1.5 (0.9),1.536 (1.416),7.150 (5.188),1.4 (1.3),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,Leukocytes,1.1 (0.5),1.32 (1.08),3.368 (2.843),1.7 (0.9),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,CRP,0.3 (0.4),0.528 (0.96),2.660 (1.778),1.4 (1.3),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,Procalcitonin,0.0 (0.1),None,0.733 (0.966),Not recorded ,Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,Creatinine,1.1 (0.5),1.488 (1.248),2.816 (1.992),1.8 (0.9),Number of analyses records per patient per 24h of ICU admission
+lab,Lab records,ALAT,0.4 (0.5),0.936 (1.032),2.511 (2.205),0.9 (0.7),Number of analyses records per patient per 24h of ICU admission
