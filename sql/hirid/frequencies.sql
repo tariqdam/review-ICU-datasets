@@ -41,11 +41,11 @@ MECH_VENT_PATIENTS AS (
     FROM general g
     JOIN LOS_COMBINED c ON g.patientid = c.patientid
 ), LOS_DAYS AS (
-    SELECT patientid, los
+    SELECT patientid, los+1 AS los -- +1 to prevent skewing with very short admissions
     FROM LOS_INT
     WHERE los > 0
 ), LOS_HOURS AS (
-    SELECT patientid, los*24 as los
+    SELECT patientid, los*24+1 as los -- +1 to prevent skewing with very short admissions
     FROM LOS_INT
     WHERE los*24*60 > 0
 ),
@@ -142,14 +142,14 @@ R_RESP_RATE AS (
 R_SPO2 AS (
     SELECT 'spo2' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE (variableid = 4000 OR variableid = 8280) AND o.patientid IN (SELECT * FROM MECH_VENT_PATIENTS)
     GROUP BY o.patientid
 ),
 R_FIO2 AS (
     SELECT 'FiO2' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE (variableid = 2010) AND o.patientid IN (SELECT * FROM MECH_VENT_PATIENTS)
     GROUP BY o.patientid
 ),
@@ -163,7 +163,7 @@ R_VentMode AS (
 R_PEEP AS (
     SELECT 'PEEP' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE (variableid = 2600 OR variableid = 2610) AND o.patientid IN (SELECT * FROM MECH_VENT_PATIENTS)
     GROUP BY o.patientid
 ),
@@ -178,39 +178,44 @@ R_ETCO2 AS (
 R_HR AS (
     SELECT 'heart_rate' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE variableid = 200
     GROUP BY o.patientid
 ),
 R_SYS_BP AS (
     SELECT 'systolic_bp' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE variableid = 100 OR variableid = 600
     GROUP BY o.patientid
 ),
 R_CO AS (
     SELECT 'cardiac_output' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     WHERE variableid = 1000
     GROUP BY o.patientid
 ),
 R_FB AS (
-    SELECT 'fluid_balance' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
+    SELECT 'fluid_out_registration' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM OBS_DATA o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
-    WHERE variableid = 10020000 OR variableid = 30005010
-    OR variableid = 30005110 OR variableid = 30005075
-    OR variableid = 30005080
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
+    WHERE
+        variableid = 10020000 -- Hourly urine volume
+--        OR variableid = 30005010 -- Fluid In - cumulative over 24h, reset at 12:00pm - all fluids going into the patient e.g. infusions, drugs
+       OR variableid = 30005110 -- Fluid Out - cumulative over 24h, reset at 12:00pm - all fluids leaving the patient e.g. urin, drain, evaporation (calculated)
+--        OR variableid = 30005075 -- Infusion of saline solution; cumulative over 24h, reset at 12:00pm
+--        OR variableid = 30005080 -- Intravenous fluid colloid administration; cumulative over 24h, reset at 12:00pm
     GROUP BY o.patientid
 ),
 R_MED AS (
     SELECT 'medication' as parameter, o.patientid, AVG(l.los), COUNT(*) as count, COUNT(*)/AVG(l.los) as freq_per_timeinterval
     FROM pharma o
-    JOIN LOS_DAYS l ON o.patientid = l.patientid
+    JOIN LOS_HOURS l ON o.patientid = l.patientid -- change from days to hours
     GROUP BY o.patientid
 ),
+
+
 COMBINED AS (
     SELECT * FROM RESULT_LOS
     UNION ALL SELECT * FROM RESULT_AGE
