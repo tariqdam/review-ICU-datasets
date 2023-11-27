@@ -1,1 +1,0 @@
-SELECT COUNT(DISTINCT patientunitstayid) as pasthistory FROM `physionet-data.eicu_crd.pasthistory`
